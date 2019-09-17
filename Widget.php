@@ -21,7 +21,7 @@ abstract class Widget
         {
             $class = get_called_class();
 
-            $segments = explode($class, "\\");
+            $segments = explode("\\", $class);
 
             array_pop($segments);
 
@@ -31,7 +31,7 @@ abstract class Widget
             }
             else
             {
-                throw new Exception('Property "viewPath" is not defined.');
+                throw new Exception('Undefined property: ' . $class . '::$viewPath');
             }
         }
 
@@ -45,9 +45,11 @@ abstract class Widget
 
     public function render($template, array $params = [])
     {
-        if ($this->viewPath)
+        $viewPath = $this->getViewPath();
+
+        if ($viewPath)
         {
-            $template = $this->getViewPath() . "\\" . $template;
+            $template = $viewPath . "\\" . $template;
         }
 
         return view($template, $params, ['saveData' => $this->saveData]);
