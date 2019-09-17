@@ -46,7 +46,7 @@ abstract class Widget
         }
     }
 
-    public static function factory()
+    public static function factory(array $params = [])
     {
         return view_cell(get_called_class() . '::widget', $params);
     }
