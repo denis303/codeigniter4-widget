@@ -38,12 +38,27 @@ abstract class Widget
         return $return;
     }
 
-    public static function widget(array $params = [])
+    public function setParams(array $params = [])
     {
-        return view_cell(get_called_class() . '::run', $params);
+        foreach($params as $key => $value)
+        {
+            $this->$key = $value;
+        }
     }
 
-    public function render($template, array $params = [])
+    public static function factory()
+    {
+        return view_cell(get_called_class() . '::widget', $params);
+    }
+
+    public function widget(array $params = [])
+    {
+        $this->setParams($params);
+
+        return $this->run();
+    }
+
+    protected function render($template, array $params = [])
     {
         $viewPath = $this->getViewPath();
 
