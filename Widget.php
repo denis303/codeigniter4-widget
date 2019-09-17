@@ -38,14 +38,9 @@ abstract class Widget
         return $return;
     }
 
-    public function widget(array $params = [])
+    public static function widget(array $params = [])
     {
-        foreach($params as $key => $value)
-        {
-            $this->$key = $value;
-        }
-
-        return $this->run();
+        return view_cell(get_called_class() . '::run', $params);
     }
 
     public function render($template, array $params = [])
